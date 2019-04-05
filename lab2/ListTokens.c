@@ -17,6 +17,7 @@ ListTokens *addlexeme(ListTokens *List, char *lexeme, int row, int column) {
   } else {
     ListTokens *List2;
     List2 = (ListTokens*)malloc(sizeof(ListTokens));
+
     List->next = List2;
     strcpy(List2->lexeme, lexeme);
     List2->row = row;
@@ -31,8 +32,7 @@ void ListPrint(ListTokens *head) {
   ListTokens *print;
   print = head;
   while (print != NULL) {
-    printf("%s ", print->lexeme);
-    printf("%d %d \n", print->row, print->column);
+    printf("Loc=<%d:%d> '%s'\n", print->row, print->column, print->lexeme);
     print = print->next;
   }
 }

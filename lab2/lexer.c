@@ -2,6 +2,86 @@
 #include <string.h>
 #include "ListTokens.h"
 
+char *DefineToken(char *lexeme) {
+  if(strcmp(lexeme, "INPUT") == 0)
+    return "input";
+  if(strcmp(lexeme, "PRINT") == 0)
+    return "print";
+  if(strcmp(lexeme, "+") == 0)
+    return "plus";
+  if(strcmp(lexeme, "-") == 0)
+    return "minus";
+  if(strcmp(lexeme, "*") == 0)
+    return "multiply";
+  if(strcmp(lexeme, "/") == 0)
+    return "divide";
+  if(strcmp(lexeme, "\\") == 0)
+    return "div";
+  if(strcmp(lexeme, "^") == 0)
+    return "pow";
+  if(strcmp(lexeme, "MOD") == 0)
+    return "mod";
+  if(strcmp(lexeme, "=") == 0)
+    return "equal";
+  if(strcmp(lexeme, "<>") == 0)
+    return "not_equal";
+  if(strcmp(lexeme, ">") == 0)
+    return "more";
+  if(strcmp(lexeme, "<") == 0)
+    return "less";
+  if(strcmp(lexeme, ">=") == 0)
+    return "more_or_equal";
+  if(strcmp(lexeme, "<=") == 0)
+    return "less_or_equal";
+  if(strcmp(lexeme, "IF") == 0)
+    return "if";
+  if(strcmp(lexeme, "THEN") == 0)
+    return "then";
+  if(strcmp(lexeme, "END") == 0)
+    return "end";
+  if(strcmp(lexeme, "ELSE") == 0)
+    return "else";
+  if(strcmp(lexeme, "DO") == 0)
+    return "do";
+  if(strcmp(lexeme, "WHILE") == 0)
+    return "while";
+  if(strcmp(lexeme, "LOOP") == 0)
+    return "loop";
+  if(strcmp(lexeme, "UNTIL") == 0)
+    return "until";
+  if(strcmp(lexeme, "DIM") == 0)
+    return "dim";
+  if(strcmp(lexeme, "AS") == 0)
+    return "as";
+  if(strcmp(lexeme, "INTEGER") == 0)
+    return "integer";
+  if(strcmp(lexeme, "STRING") == 0)
+    return "string";
+  if(strcmp(lexeme, "TO") == 0)
+    return "to";
+  if(strcmp(lexeme, "FUNCTION") == 0)
+    return "function";
+  if(strcmp(lexeme, "(") == 0)
+    return "l_paren";
+  if(strcmp(lexeme, ")") == 0)
+    return "r_paren";
+  if(strcmp(lexeme, ",") == 0)
+    return "comma";
+  if(strcmp(lexeme, ";") == 0)
+    return "semi";
+  for (int i = 1; i < '\0'; i++) {
+    if (!((lexeme[0] >= 'A' && lexeme[0] <= 'Z') ||
+      (lexeme[0] >= 'a' && lexeme[0] <= 'z') || (lexeme[0] == '_')))
+        return "unknown";
+    if (!((lexeme[i] >= 'A' && lexeme[i] <= 'Z') ||
+      (lexeme[i] >= 'a' && lexeme[i] <= 'z') || (lexeme[i] == '_')
+      || (lexeme[i] >= '0' && lexeme[i] <= '9')))
+        return "unknown";
+    else return "id";
+  }
+  return 0;
+}
+
 int main(int argc, char const *argv[]) {
   char buf[100];
   if (argc > 1) {
@@ -27,16 +107,18 @@ int main(int argc, char const *argv[]) {
         buf[i] = sym;
         i++;
         column++;
-
-        while ((sym = fgetc(file)) != '"'){
+        // sym = fgetc(file);
+        while ((sym = fgetc(file)) != '"' && sym != '\n'){
+          buf[i] = sym;
+          i++;
+          column++;
+          // sym = fgetc(file);
+        }
+        if (sym == '"') {
           buf[i] = sym;
           i++;
           column++;
         }
-
-        buf[i] = sym;
-        i++;
-        column++;
         buf[i] = '\0';
 
         List = addlexeme(List, buf, row, column-i);
