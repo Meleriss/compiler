@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include "ListTokens.h"
 
 int main(int argc, char const *argv[]) {
   char buf[100];
@@ -13,31 +14,64 @@ int main(int argc, char const *argv[]) {
       return -1;
     }
 
+    ListTokens *List = init();
+    ListTokens *head = List;
+
     char sym;
     int i = 0;
+    int row = 1, column = 1;
 
     while ((sym = fgetc(file)) != EOF) {
       //литералы
       if (sym == '"') {
         buf[i] = sym;
         i++;
+        column++;
 
         while ((sym = fgetc(file)) != '"'){
           buf[i] = sym;
           i++;
+          column++;
         }
 
         buf[i] = sym;
         i++;
+        column++;
         buf[i] = '\0';
 
-        printf("%s\n", buf);
+        List = addlexeme(List, buf, row, column-i);
 
         i = 0;
         continue;
       }
       //игнор пробелов
-      else if (sym == ' ' || sym == '\n') {
+      else if (sym == ' ') {
+        if (i == 0) {
+          column++;
+          continue;
+        }
+
+        buf[i] = '\0';
+        //игнор комментов
+        if (strcmp(buf, "REM") == 0) {
+          while ((sym = fgetc(file)) != '\n')
+            continue;
+          //memset (buf, '0', i+1);
+          i = 0;
+          row++;
+          column = 1;
+          continue;
+        }
+
+        List = addlexeme(List, buf, row, column-i);
+
+        i = 0;
+        column++;
+        continue;
+      }
+      //новая строка
+      else if (sym == '\n') {
+
         if (i == 0)
           continue;
 
@@ -51,8 +85,10 @@ int main(int argc, char const *argv[]) {
           continue;
         }
 
-        printf("%s\n", buf);
+        List = addlexeme(List, buf, row, column-i);
 
+        column = 1;
+        row++;
         i = 0;
         continue;
       }
@@ -63,15 +99,17 @@ int main(int argc, char const *argv[]) {
         if (i != 0) {
           buf[i] = '\0';
 
-          printf("%s\n", buf);
+          List = addlexeme(List, buf, row, column-i);
 
           i = 0;
         }
 
         buf[i] = sym;
-        buf[i+1] = '\0';
+        i++;
+        column++;
+        buf[i] = '\0';
 
-        printf("%s\n", buf);
+        List = addlexeme(List, buf, row, column-i);
 
         i = 0;
         continue;
@@ -81,32 +119,36 @@ int main(int argc, char const *argv[]) {
         if (i != 0) {
           buf[i] = '\0';
 
-          printf("%s\n", buf);
+          List = addlexeme(List, buf, row, column-i);
 
           i = 0;
         }
 
         buf[i] = sym;
         i++;
+        column++;
 
         if ((sym = fgetc(file)) == '=') {
           buf[i] = sym;
           i++;
+          column++;
           buf[i] = '\0';
 
-          printf("%s\n", buf);
+          List = addlexeme(List, buf, row, column-i);
 
           i = 0;
           continue;
         } else {
           buf[i] = '\0';
 
-          printf("%s\n", buf);
+          List = addlexeme(List, buf, row, column-i);
 
           i = 0;
 
-          if (sym == ' ')
+          if (sym == ' ') {
+            column++;
             continue;
+          }
         }
       }
 
@@ -114,43 +156,52 @@ int main(int argc, char const *argv[]) {
         if (i != 0) {
           buf[i] = '\0';
 
-          printf("%s\n", buf);
+          List = addlexeme(List, buf, row, column-i);
 
           i = 0;
         }
         buf[i] = sym;
         i++;
+        column++;
 
         sym = fgetc(file);
 
         if ((sym == '=') || (sym == '>')) {
           buf[i] = sym;
           i++;
+          column++;
           buf[i] = '\0';
 
-          printf("%s\n", buf);
+          List = addlexeme(List, buf, row, column-i);
 
           i = 0;
           continue;
         } else {
           buf[i] = '\0';
 
-          printf("%s\n", buf);
+          List = addlexeme(List, buf, row, column-i);
 
           i = 0;
 
-          if (sym == ' ')
+          if (sym == ' ') {
+            column++;
             continue;
+          }
         }
       }
 
       buf[i] = sym;
       i++;
+      column++;
       // printf("%c", sym);
     }
-
+    ListPrint(head);
     fclose (file);
   }
+
+  // addlexeme(List, "sdffd", 1, 1);
+  // addlexeme(List, "snjkl", 2, 6);
+  // ListPrint(head);
 
   return 0;
 }

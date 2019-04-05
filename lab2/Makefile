@@ -1,2 +1,2 @@
 all:
-	gcc -Wall -o lexer lexer.c
+	gcc -Wall -o lexer lexer.c ListTokens.c

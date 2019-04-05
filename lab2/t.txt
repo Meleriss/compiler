@@ -1,6 +1,6 @@
 REM ЭТО КОММЕНТАРИЙ
-INPUT "Введите числа: ";a,b
+INPUT "number: ";a,b
 c=a+b
-PRINT "Их сумма: ";c
+PRINT "sum: ";c
 END
 *dhjsg\/ss*s a^ >= >>  dsf <> dsv << sdv<=  asf
