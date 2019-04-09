@@ -1,6 +1,6 @@
 REM ЭТО КОММЕНТАРИЙ
-INPUT "number: ";a,b
-c=a+b
+INPUT "number: " REM ,fdkf
+c=a+b 34543
 PRINT "sum: ";c
-END
+END q3fe$xf fdg 254fgb 54gg 4543 53v6 6
 *dhjsg\/ss*s a^ >= >>  dsf <> dsv << sdv<=  asf

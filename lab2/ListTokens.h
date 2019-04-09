@@ -13,7 +13,7 @@ typedef struct ListTokens {
 } ListTokens;
 
 ListTokens *init();
-ListTokens *addlexeme(ListTokens *List, char *lexeme, int row, int column);
+ListTokens *addlexeme(ListTokens *List, char *token, char *lexeme, int row, int column);
 void ListPrint(ListTokens *head);
 
 #endif

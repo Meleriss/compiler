@@ -8,21 +8,27 @@ ListTokens *init() {
   return ListToken;
 }
 
-ListTokens *addlexeme(ListTokens *List, char *lexeme, int row, int column) {
+ListTokens *addlexeme(ListTokens *List, char *token, char *lexeme, int row, int column) {
   if (List->row == -1) {
     strcpy(List->lexeme, lexeme);
+		strcpy(List->token, token);
     List->row = row;
     List->column = column;
+  //  printf("%s\n", List->lexeme);
+    // printf("%s\n", List->token);
     return List;
   } else {
     ListTokens *List2;
     List2 = (ListTokens*)malloc(sizeof(ListTokens));
-
     List->next = List2;
     strcpy(List2->lexeme, lexeme);
+		strcpy(List2->token, token);
     List2->row = row;
     List2->column = column;
     List2->next = NULL;
+      // printf("%s\n", List->lexeme);
+      //   printf("%s\n", List->token);
+      // printf("lfd\n" );
     return List2;
   }
   return NULL;
@@ -32,7 +38,7 @@ void ListPrint(ListTokens *head) {
   ListTokens *print;
   print = head;
   while (print != NULL) {
-    printf("Loc=<%d:%d> '%s'\n", print->row, print->column, print->lexeme);
+    printf("Loc=<%d:%d> %s '%s'\n", print->row, print->column, print->token, print->lexeme);
     print = print->next;
   }
 }

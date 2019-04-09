@@ -69,221 +69,260 @@ char *DefineToken(char *lexeme) {
     return "comma";
   if(strcmp(lexeme, ";") == 0)
     return "semi";
-  for (int i = 1; i < '\0'; i++) {
-    if (!((lexeme[0] >= 'A' && lexeme[0] <= 'Z') ||
-      (lexeme[0] >= 'a' && lexeme[0] <= 'z') || (lexeme[0] == '_')))
-        return "unknown";
-    if (!((lexeme[i] >= 'A' && lexeme[i] <= 'Z') ||
-      (lexeme[i] >= 'a' && lexeme[i] <= 'z') || (lexeme[i] == '_')
-      || (lexeme[i] >= '0' && lexeme[i] <= '9')))
-        return "unknown";
-    else return "id";
-  }
-  return 0;
+	if(lexeme[0] == '"') {
+		if (lexeme[strlen(lexeme)-1] == '"')
+			return "literal";
+		else
+			return "unknown";
+	}
+
+	if (lexeme[0] >= '0' && lexeme[0] <= '9') {
+		for (int i = 1; i < strlen(lexeme); i++) {
+			if (!(lexeme[i] >= '0' && lexeme[i] <= '9'))
+				return "unknown";	
+		} 
+		return "numeric";
+	}
+
+	if ((lexeme[0] >= 'A' && lexeme[0] <= 'Z') ||
+		(lexeme[0] >= 'a' && lexeme[0] <= 'z') || (lexeme[0] == '_')) {
+	
+		for (int i = 1; i < strlen(lexeme); i++) {
+			if (!((lexeme[i] >= 'A' && lexeme[i] <= 'Z') ||
+				(lexeme[i] >= 'a' && lexeme[i] <= 'z') || (lexeme[i] == '_') ||
+				(lexeme[i] >= '0' && lexeme[i] <= '9')))
+				return "unknown";
+		}
+		return "id";
+	}
+	return "unknown";
 }
 
 int main(int argc, char const *argv[]) {
-  char buf[100];
-  if (argc > 1) {
-    FILE *file;
+	char buf[100];
+	if (argc > 1) {
+		FILE *file;
 
-    file = fopen (argv[1], "r");
+		file = fopen (argv[1], "r");
 
-    if (file == NULL) {
-      printf("error\n");
-      return -1;
-    }
+		if (file == NULL) {
+			printf("error\n");
+			return -1;
+		}
 
-    ListTokens *List = init();
-    ListTokens *head = List;
+		ListTokens *List = init();
+		ListTokens *head = List;
 
-    char sym;
-    int i = 0;
-    int row = 1, column = 1;
+		char sym;
+		int i = 0;
+		int row = 1, column = 1;
+		char *token = malloc(sizeof(char) * 80);
 
-    while ((sym = fgetc(file)) != EOF) {
-      //литералы
-      if (sym == '"') {
-        buf[i] = sym;
-        i++;
-        column++;
-        // sym = fgetc(file);
-        while ((sym = fgetc(file)) != '"' && sym != '\n'){
-          buf[i] = sym;
-          i++;
-          column++;
-          // sym = fgetc(file);
-        }
-        if (sym == '"') {
-          buf[i] = sym;
-          i++;
-          column++;
-        }
-        buf[i] = '\0';
+		while ((sym = fgetc(file)) != EOF) {
+			//литералы
+			if (sym == '"') {
+				buf[i] = sym;
+				i++;
+				column++;
+				// sym = fgetc(file);
+				while ((sym = fgetc(file)) != '"' && sym != '\n') {
+					buf[i] = sym;
+					i++;
+					column++;
+					// sym = fgetc(file);
+				}
+				if (sym == '"') {
+					buf[i] = sym;
+					i++;
+					column++;
+				}
+				buf[i] = '\0';
 
-        List = addlexeme(List, buf, row, column-i);
+				token = DefineToken(buf);
+				List = addlexeme(List, token, buf, row, column-i);
 
-        i = 0;
-        continue;
-      }
-      //игнор пробелов
-      else if (sym == ' ') {
-        if (i == 0) {
-          column++;
-          continue;
-        }
+				i = 0;
+				continue;
+			}
+			//игнор пробелов
+			else if (sym == ' ') {
+				if (i == 0) {
+					column++;
+					continue;
+				}
 
-        buf[i] = '\0';
-        //игнор комментов
-        if (strcmp(buf, "REM") == 0) {
-          while ((sym = fgetc(file)) != '\n')
-            continue;
-          //memset (buf, '0', i+1);
-          i = 0;
-          row++;
-          column = 1;
-          continue;
-        }
+				buf[i] = '\0';
+				//игнор комментов
+				if (strcmp(buf, "REM") == 0) {
+					while ((sym = fgetc(file)) != '\n')
+						continue;
+					//memset (buf, '0', i+1);
+					i = 0;
+					row++;
+					column = 1;
+					continue;
+				}
 
-        List = addlexeme(List, buf, row, column-i);
+				token = DefineToken(buf);
+				List = addlexeme(List, token, buf, row, column-i);
 
-        i = 0;
-        column++;
-        continue;
-      }
-      //новая строка
-      else if (sym == '\n') {
+				i = 0;
+				column++;
+				continue;
+			}
+			//новая строка
+			else if (sym == '\n') {
 
-        if (i == 0)
-          continue;
+				if (i == 0)
+					continue;
 
-        buf[i] = '\0';
-        //игнор комментов
-        if (strcmp(buf, "REM") == 0) {
-          while ((sym = fgetc(file)) != '\n')
-            continue;
-          //memset (buf, '0', i+1);
-          i = 0;
-          continue;
-        }
+				buf[i] = '\0';
+				//игнор комментов
+				if (strcmp(buf, "REM") == 0) {
+					while ((sym = fgetc(file)) != '\n')
+						continue;
+					//memset (buf, '0', i+1);
+					i = 0;
+					continue;
+				}
 
-        List = addlexeme(List, buf, row, column-i);
+				token = DefineToken(buf);
+				List = addlexeme(List, token, buf, row, column-i);
 
-        column = 1;
-        row++;
-        i = 0;
-        continue;
-      }
-      //знаки в один символ
-      else if (sym == ',' || sym == ';' || sym == '+' || sym == '-' ||
-        sym == '*' || sym == '/' || sym == '\\' || sym == '^' ||
-        sym == '=' || sym == '(' || sym == ')') {
-        if (i != 0) {
-          buf[i] = '\0';
+				column = 1;
+				row++;
+				i = 0;
+				continue;
+			}
+			//знаки в один символ
+			else if (sym == ',' || sym == ';' || sym == '+' || sym == '-' ||
+				sym == '=' || sym == '*' || sym == '/' || sym == '\\' || sym == '^' ||
+				sym == '(' || sym == ')') {
+				
+				if (i != 0) {
+					buf[i] = '\0';
 
-          List = addlexeme(List, buf, row, column-i);
+					token = DefineToken(buf);
+					// printf("error\n");
+					List = addlexeme(List, token, buf, row, column-i);
+					// printf("error\n");
+					i = 0;
+				}
 
-          i = 0;
-        }
+				buf[i] = sym;
+				i++;
+				column++;
+				buf[i] = '\0';
 
-        buf[i] = sym;
-        i++;
-        column++;
-        buf[i] = '\0';
+				token = DefineToken(buf);
+				List = addlexeme(List, token, buf, row, column-i);
 
-        List = addlexeme(List, buf, row, column-i);
+				i = 0;
+				continue;
+			}
 
-        i = 0;
-        continue;
-      }
+			else if (sym == '>') {
+				if (i != 0) {
+					buf[i] = '\0';
 
-      else if (sym == '>') {
-        if (i != 0) {
-          buf[i] = '\0';
+					token = DefineToken(buf);
+					List = addlexeme(List, token, buf, row, column-i);
 
-          List = addlexeme(List, buf, row, column-i);
+					i = 0;
+				}
 
-          i = 0;
-        }
+				buf[i] = sym;
+				i++;
+				column++;
 
-        buf[i] = sym;
-        i++;
-        column++;
+				if ((sym = fgetc(file)) == '=') {
+					buf[i] = sym;
+					i++;
+					column++;
+					buf[i] = '\0';
 
-        if ((sym = fgetc(file)) == '=') {
-          buf[i] = sym;
-          i++;
-          column++;
-          buf[i] = '\0';
+					token = DefineToken(buf);
+					List = addlexeme(List, token, buf, row, column-i);
 
-          List = addlexeme(List, buf, row, column-i);
+					i = 0;
+					continue;
+				} else {
+					buf[i] = '\0';
 
-          i = 0;
-          continue;
-        } else {
-          buf[i] = '\0';
+					token = DefineToken(buf);
+					List = addlexeme(List, token, buf, row, column-i);
 
-          List = addlexeme(List, buf, row, column-i);
+					i = 0;
 
-          i = 0;
+					if (sym == ' ') {
+						column++;
+						continue;
+					}
+				}
+			}
 
-          if (sym == ' ') {
-            column++;
-            continue;
-          }
-        }
-      }
+			else if (sym == '<') {
+				if (i != 0) {
+					buf[i] = '\0';
 
-      else if (sym == '<') {
-        if (i != 0) {
-          buf[i] = '\0';
+					token = DefineToken(buf);
+					List = addlexeme(List, token, buf, row, column-i);
 
-          List = addlexeme(List, buf, row, column-i);
+					i = 0;
+				}
+				buf[i] = sym;
+				i++;
+				column++;
 
-          i = 0;
-        }
-        buf[i] = sym;
-        i++;
-        column++;
+				sym = fgetc(file);
 
-        sym = fgetc(file);
+				if ((sym == '=') || (sym == '>')) {
+					buf[i] = sym;
+					i++;
+					column++;
+					buf[i] = '\0';
 
-        if ((sym == '=') || (sym == '>')) {
-          buf[i] = sym;
-          i++;
-          column++;
-          buf[i] = '\0';
+					token = DefineToken(buf);
+					List = addlexeme(List, token, buf, row, column-i);
 
-          List = addlexeme(List, buf, row, column-i);
+					i = 0;
+					continue;
+				} else {
+					buf[i] = '\0';
 
-          i = 0;
-          continue;
-        } else {
-          buf[i] = '\0';
+					token = DefineToken(buf);
+					List = addlexeme(List, token, buf, row, column-i);
 
-          List = addlexeme(List, buf, row, column-i);
+					i = 0;
 
-          i = 0;
+					if (sym == ' ') {
+						column++;
+						continue;
+					}
+				}
+			}
 
-          if (sym == ' ') {
-            column++;
-            continue;
-          }
-        }
-      }
+			buf[i] = sym;
+			i++;
+			column++;
+			// printf("%c", sym);
+		}
+		if (i != 0) {
+			buf[i] = '\0';
 
-      buf[i] = sym;
-      i++;
-      column++;
-      // printf("%c", sym);
-    }
-    ListPrint(head);
-    fclose (file);
-  }
+			token = DefineToken(buf);
+			List = addlexeme(List, token, buf, row, column-i);
 
-  // addlexeme(List, "sdffd", 1, 1);
-  // addlexeme(List, "snjkl", 2, 6);
-  // ListPrint(head);
+			i = 0;
+		}
+		List = addlexeme(List, "eof", "", row, column-i);
+		ListPrint(head);
+		fclose (file);
+	}
 
-  return 0;
+	// addlexeme(List, "sdffd", 1, 1);
+	// addlexeme(List, "snjkl", 2, 6);
+	// ListPrint(head);
+
+	return 0;
 }
