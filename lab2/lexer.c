@@ -96,7 +96,7 @@ char *DefineToken(char *lexeme) {
 	return "unknown";
 }
 
-int IdentifyTokens(int argc, char const *argv) {
+ListTokens* IdentifyTokens(int argc, char const *argv) {
 	char buf[100];
 	if (argc > 1) {
 		FILE *file;
@@ -105,7 +105,7 @@ int IdentifyTokens(int argc, char const *argv) {
 
 		if (file == NULL) {
 			printf("error\n");
-			return -1;
+			return NULL;
 		}
 
 		ListTokens *List = init();
@@ -308,8 +308,10 @@ int IdentifyTokens(int argc, char const *argv) {
 			i = 0;
 		}
 		List = addlexeme(List, "eof", "", row, column-i);
-		ListPrint(head);
+		
 		fclose (file);
+	
+		return head;
 	}
-	return 0;
+	return NULL;
 }

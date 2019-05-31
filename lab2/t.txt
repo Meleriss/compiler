@@ -1,6 +1,5 @@
-REM ЭТО КОММЕНТАРИЙ
-INPUT "number: " REM ,fdkf
-c=a+b 34543
-PRINT "sum: ";c
-END q3fe$xf fdg 254fgb 54gg 4543 53v6 6
-*dhjsg\/ss*s a^ >= >>  dsf <> dsv << sdv<=  asf
+REM Вывести количество отрицательных элементов
+INPUT "Введите число элементов массива", n
+DIM mas(n) AS INTEGER
+INPUT "Введите элемент массива", mas
+END

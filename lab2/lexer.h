@@ -8,6 +8,6 @@
 #include "ListTokens.h"
 
 char *DefineToken(char *lexeme);
-int IdentifyTokens(int argc, char const *argv);
+ListTokens* IdentifyTokens(int argc, char const *argv);
 
 #endif
