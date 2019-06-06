@@ -17,20 +17,20 @@ typedef struct Parser {
 
 Parser* parser;
 
-void initParser(ListTokens* Tokens);
-void S();
+struct AST* initParser(ListTokens* Tokens);
+void S(Parser* parser);
 void StList(struct AST* StartNode);
-void input1();
-void input2();
+void input1(struct AST* inputNode);
+void input2(struct AST* inputNode);
 void input3();
-void commaid();
-void headcommaid();
+void commaid(struct AST* inputNode);
+void headcommaid(struct AST *node);
 void tailcommaid();
 void semiid();
 void headsemiid();
 void tailsemiid();
-void print1();
-void print2();
+void print1(struct AST *node);
+void print2(struct AST *node);
 void initi();
 void varormas();
 void idornum();
@@ -65,6 +65,7 @@ void func(struct AST* StartNode);
 void match(char* x);
 void consume();
 ListTokens* nextToken();
+ListTokens* getLookahead();
 void printErrorMessage(int row, int column, char *x);
 
 #endif

@@ -2,7 +2,7 @@
 
 int countNode = 1;
 
-struct AST* init_node_ast() {
+struct AST* initASTNode() {
 	struct AST* ast;
 	ast = (struct AST*) calloc(1, sizeof(struct AST));
 	ast->Stroka = NULL;
@@ -36,4 +36,41 @@ void setStroka(struct AST *node, char* str)
 {
 	node->Stroka = (char*) calloc(strlen(str), sizeof(char*));
 	strcpy(node->Stroka, str);
+}
+
+void setToken(struct AST *node, ListTokens *token) {
+	
+}
+
+void createTree(struct AST* Node) {
+	FILE *graph;
+	if ((graph = fopen("graph.gv", "w")) == NULL) {
+		printf ("Cannot open file.\n");
+		exit(1); 
+	}
+	fprintf(graph, "digraph {\n");
+	createConnect(graph, Node);
+	fprintf(graph, "}\n");
+}
+
+void createConnect(FILE *graph, struct AST* Node) {
+	createBox(graph, Node);
+	struct ListChild* child = Node->ListChildren;
+	while (child != NULL) {
+		fprintf(graph, "\t");
+		toGvNode(graph, Node);
+		fprintf(graph, " -> ");
+		toGvNode(graph, child->Node);
+		fprintf(graph, "\n");
+		createConnect(graph, child->Node);
+		child = child->next;
+	}
+}
+
+void createBox(FILE *graph, struct AST* Node) {
+	fprintf(graph, "\t\"node%d\" [label=%s]\n", Node->idNode, Node->Stroka);
+}
+
+void toGvNode(FILE *graph, struct AST* Node) {
+	fprintf(graph, "\"node%d\"", Node->idNode);
 }

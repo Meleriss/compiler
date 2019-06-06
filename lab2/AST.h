@@ -16,7 +16,16 @@ struct AST {
     int type;
 };
 
-struct AST* init_node_ast();
+struct AST* initASTNode();
+
 void add_child(struct AST* Node, struct AST* parent);
+
 void setStroka(struct AST* node, char *str);
+void setToken(struct AST* node, ListTokens *token);
+
+void createTree(struct AST* Node);
+void createConnect(FILE *graph, struct AST* Node);
+void createBox(FILE *graph, struct AST* Node);
+void toGvNode(FILE *graph, struct AST* Node);
+
 #endif
