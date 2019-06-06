@@ -11,32 +11,38 @@ void initParser(ListTokens* Tokens) {
 }
 
 void S() {
-    StList();
+    struct AST* StartNode = init_node_ast();
+    setStroka(StartNode, "start");
+    StList(StartNode);
     match("end");
 }
 
-void StList() {
+void StList(struct AST* StartNode) {
     if (strcmp(parser->lookahead->token, "input") == 0) {
+        struct AST* InputNode = init_node_ast();
+        setStroka(InputNode, "input");
+        add_child(InputNode, StartNode);
+
         input1();
-        StList();
+        StList(StartNode);
     } else if (strcmp(parser->lookahead->token, "print") == 0) {
         print1();
-        StList();
+        StList(StartNode);
     } else if (strcmp(parser->lookahead->token, "dim") == 0) {
         initi();
-        StList();
+        StList(StartNode);
     } else if (strcmp(parser->lookahead->token, "id") == 0) {
         callOrAriph();
-        StList();
+        StList(StartNode);
     } else if (strcmp(parser->lookahead->token, "if") == 0) {
-        vetvlenie();
-        StList();
+        vetvlenie(StartNode);
+        StList(StartNode);
     } else if (strcmp(parser->lookahead->token, "do") == 0) {
-        tsicl();
-        StList();
+        tsicl(StartNode);
+        StList(StartNode);
     } else if (strcmp(parser->lookahead->token, "function") == 0) {
-        func();
-        StList();
+        func(StartNode);
+        StList(StartNode);
     }
 }
 
@@ -339,13 +345,13 @@ void sign() {
         match("minus");
 }
 
-void vetvlenie() {
+void vetvlenie(struct AST* StartNode) {
     match("if");
     expression();
     match("then");
-    StList();
+    StList(StartNode);
     match("else");
-    StList();
+    StList(StartNode);
     match("end");
     match("if");
 }
@@ -406,23 +412,23 @@ void condition() {
     }
 }
 
-void tsicl() {
+void tsicl(struct AST* StartNode) {
     if (strcmp(parser->lookahead->token, "do") == 0) {
         match("do");
-        tsicl1(1);
+        tsicl1(StartNode);
     }
 }
 
-void tsicl1() {
+void tsicl1(struct AST* StartNode) {
     if (strcmp(parser->lookahead->token, "while") == 0) {
         match("while");
         expression();
-        StList();
+        StList(StartNode);
         match("loop");
     } else if (strcmp(parser->lookahead->token, "until") == 0) {
          match("while");
         expression();
-        StList();
+        StList(StartNode);
         match("loop");
     } else {
         printf("error: %d:%d: expecting while or until, find %s\n", 
@@ -431,13 +437,13 @@ void tsicl1() {
     }
 }
 
-void func() {
+void func(struct AST* StartNode) {
     match("function");
     match("id");
     match("l_paren");
     commaid();
     match("r_paren");
-    StList();
+    StList(StartNode);
     match("end");
     match("function");
 }

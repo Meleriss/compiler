@@ -6,13 +6,13 @@
 #include <stdio.h>
 #include "AST.h"
 
-typedef struct ListChild {
-    AST *Node;
+struct ListChild {
+    struct AST *Node;
     struct ListChild *next;
-} ListChild;
+};
 
-ListChild *chinit();
-ListChild *addChild(ListChild *List, AST *Node);
+struct ListChild *chinit();
+struct ListChild *addChild(struct ListChild *List, struct AST *Node);
 
 // void ListPrint(ListTokens *head);
 

@@ -8,14 +8,15 @@
 #include "ListTokens.h"
 #include "ListChild.h"
 
-int countNode;
-
-typedef struct AST {
+struct AST {
+    char *Stroka;
     ListTokens* Token;
-    ListChild* ListChildren;
+    struct ListChild* ListChildren;
     int idNode;
-} AST;
+    int type;
+};
 
-AST* init_node_ast(ListTokens* Token);
-void add_child(AST* Node, AST* parent);
+struct AST* init_node_ast();
+void add_child(struct AST* Node, struct AST* parent);
+void setStroka(struct AST* node, char *str);
 #endif

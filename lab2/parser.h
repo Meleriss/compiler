@@ -6,20 +6,20 @@
 #include <stdlib.h>
 #include "ListTokens.h"
 #include "lexer.h"
-// #include "AST.h"
+#include "AST.h"
 
 typedef struct Parser {
     ListTokens* Tokens;
     ListTokens* lookahead;
     int count;
-    // AST *root;
+    struct AST *root;
 } Parser;
 
 Parser* parser;
 
 void initParser(ListTokens* Tokens);
 void S();
-void StList();
+void StList(struct AST* StartNode);
 void input1();
 void input2();
 void input3();
@@ -52,15 +52,15 @@ void pass_arg();
 void tail_pass_arg();
 void sign_number();
 void sign();
-void vetvlenie();
+void vetvlenie(struct AST* StartNode);
 void expression();
 void first_prior_expr1();
 void first_prior_expr2();
 void group_expr ();
 void condition();
-void tsicl();
-void tsicl1();
-void func();
+void tsicl(struct AST* StartNode);
+void tsicl1(struct AST* StartNode);
+void func(struct AST* StartNode);
 
 void match(char* x);
 void consume();
