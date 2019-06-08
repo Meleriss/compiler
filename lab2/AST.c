@@ -39,7 +39,40 @@ void setStroka(struct AST *node, char* str)
 }
 
 void setToken(struct AST *node, ListTokens *token) {
-	
+	node->Token = token;
+}
+
+struct ListChild* searchLastChild(struct AST* node)
+{
+	struct ListChild* listChild = node->ListChildren;
+	while (listChild->next != NULL)
+		listChild = listChild->next;
+	return listChild;
+}
+
+struct AST* getLastChilde(struct AST* node)
+{
+	return searchLastChild(node)->Node;
+}
+
+void deleteLastChild(struct AST *node)
+{
+	struct ListChild* listChild = searchLastChild(node);
+	listChild->Node = NULL;
+}
+
+void swapChild(struct AST *parent, struct AST *newChild)
+{
+	struct AST *oldChild = getLastChilde(parent);
+	deleteLastChild(parent);
+	addNewChild(parent, newChild);
+	add_child(oldChild, newChild);
+}
+
+void addNewChild(struct AST *parent, struct AST *newChild)
+{
+	struct ListChild *listChild = searchLastChild(parent);
+	listChild->Node = newChild;
 }
 
 void createTree(struct AST* Node) {
@@ -68,7 +101,26 @@ void createConnect(FILE *graph, struct AST* Node) {
 }
 
 void createBox(FILE *graph, struct AST* Node) {
-	fprintf(graph, "\t\"node%d\" [label=%s]\n", Node->idNode, Node->Stroka);
+	fprintf(graph, "\t\"node%d\" [label=\"", Node->idNode);
+	if (Node->Stroka != NULL) {
+		fprintf(graph, "TypeNode=%s",Node->Stroka);
+	} else {
+		fprintf(graph, "TypeNode=unknown");
+	}
+
+	if (Node->type == 0) {
+		fprintf(graph, "\\ntype=unknown");
+	} else if (Node->type == 1) {
+		fprintf(graph, "\\ntype=int");
+	} else if (Node->type == 2) {
+		fprintf(graph, "\\ntype=string");
+	}
+
+	if (Node->Token != NULL) {
+		fprintf(graph, "\\nlexeme=%s", Node->Token->lexeme);
+	}
+	
+	fprintf(graph, "\"]\n");
 }
 
 void toGvNode(FILE *graph, struct AST* Node) {

@@ -1,0 +1,78 @@
+S -> STLIST end.
+
+STLIST -> INPUT STLIST | PRINT STLIST | INIT STLIST | CALLORARIPH STLIST |
+          VETVLENIE STLIST | TSICL STLIST | FUNC STLIST | .
+// можно сделать x = x + 2? насколько я поял то нет
+// косяк с, а не все норм, кто-то просто, немного поехал
+
+INPUT -> input INPUT2.
+INPUT2 -> COMAID | literal INPUT3.
+INPUT3 -> coma id | semi SEMIID.
+
+COMAID -> HEADCOMAID TAILCOMAID.
+HEADCOMAID -> id.
+TAILCOMAID -> coma id TAILCOMAID | .
+
+SEMIID -> HEADSEMIID TAILSEMIID.
+HEADSEMIID -> id.
+TAILSEMIID -> semi id TAILSEMIID | .
+
+
+PRINT -> print PRINT2.
+PRINT2 -> COMAID | literal coma COMAID.
+
+
+INIT -> dim id VARORMAS.
+VARORMAS -> TAILCOMAID as TYPE | l_par IDORNUM r_par as TYPE.
+TYPE -> integer | string.
+IDORNUM -> id | numeric.
+
+CALLORARIPH -> id COA.
+COA -> CALL_METHOD | assign TERM.
+// можно сделать x = x + 2? насколько я поял то нет
+// ля, нет довн, соре
+
+TERM -> ADD_PRIOR1.
+
+ADD_PRIOR1 -> MULT_PRIOR1 ADD_PRIOR2.
+ADD_PRIOR2 -> ADD_PRIOR_OPER MULT_PRIOR1 ADD_PRIOR2  | .
+
+MULT_PRIOR1 -> GROUP  MULT_PRIOR2.
+MULT_PRIOR2 -> MULT_PRIOR_OPER GROUP MULT_PRIOR2 | .
+
+GROUP -> l_par TERM r_par | ID_OR_SIGN_NAMBER.
+
+MULT_PRIOR_OPER -> mult | div.
+ADD_PRIOR_OPER -> add | sub.
+
+ID_OR_SIGN_NAMBER -> id METHOD_OR_ARRAY | SIGN_NAMBER.
+
+METHOD_OR_ARRAY -> l_par PASS_ARG r_par | .
+
+CALL_METHOD -> l_par PASS_ARG r_par.
+
+PASS_ARG -> TERM TAIL_PASS_ARG | .
+TAIL_PASS_ARG -> coma TERM TAIL_PASS_ARG | .
+
+SIGN_NAMBER -> SIGN num_const.
+
+SIGN -> sub | add | .
+
+
+VETVLENIE -> if EXPRESSION then STLIST else STLIST end if.
+
+EXPRESSION -> FIRST_PRIOR_EXPR1.
+
+FIRST_PRIOR_EXPR1 -> GROUP_EXPR FIRST_PRIOR_EXPR2.
+FIRST_PRIOR_EXPR2 -> CONDITION GROUP_EXPR FIRST_PRIOR_EXPR2 | .
+
+GROUP_EXPR -> TERM.
+
+CONDITION -> equal | not_equal | less | less_or_equal | more | more_or_equal.
+
+
+TSICL -> do THICL1.
+THICL1 -> while EXPRESSION STLIST loop | until EXPRESSION STLIST loop.
+// ля тут тяжко, как понять различие межуду expr и stlist
+
+FUNC -> function id l_par COMAID r_par STLIST end function.

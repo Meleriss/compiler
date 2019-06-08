@@ -1,12 +1,25 @@
-REM Вывести количество отрицательных элементов
-INPUT "Введите число элементов массива", n
-DIM mas(n) AS INTEGER
-INPUT "Введите элемент массива", mas
-REM stroka="Один"
-REM stroka2="Два"
-PRINT stroka
-PRINT stroka2
+x=x+2
+
+DO WHILE a < 3
+    x = a + 1
+LOOP
+
+IF a < 3 
+THEN 
+    x = a + 1
+ELSE
+    x = a - 1
+END IF
+
+REM возведение в куб
+DIM df,ds,d AS INTEGER
+INPUT "Введите число элементов массива"; n
+kub(n,fgd,v+d,2*ksdl,t)
+PRINT n
+
 FUNCTION kub (x)
 kub=x*x*x
 END FUNCTION
+
 END
+
