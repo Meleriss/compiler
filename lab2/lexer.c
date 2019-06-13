@@ -168,8 +168,10 @@ ListTokens* IdentifyTokens(int argc, char const *argv) {
 			//новая строка
 			else if (sym == '\n') {
 
-				if (i == 0)
+				if (i == 0) {
+					row++;
 					continue;
+				}
 
 				buf[i] = '\0';
 				//игнор комментов

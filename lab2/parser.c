@@ -207,6 +207,8 @@ void varormas(struct AST* node) {
 		type(node);
 	} else if (strcmp(parser->lookahead->token, "l_paren") == 0) {
 		match("l_paren");
+		struct AST* glc = getLastChilde(node);
+		setStroka(glc, "arr");
 		idornum();
 		match("r_paren");
 		match("as");
@@ -252,8 +254,7 @@ void type(struct AST* node) {
 
 void callOrAriph(struct AST* node) {
 	struct AST* idNode = initASTNode();
-	setStroka(idNode, "id");
-	//setToken(idNode, getLookahead());
+	setToken(idNode, getLookahead());
 	
 	add_child(idNode, node);
 
@@ -263,9 +264,14 @@ void callOrAriph(struct AST* node) {
 
 void cOar(struct AST* node) {
 	if (strcmp(parser->lookahead->token, "l_paren") == 0) {
+		struct AST *child = getLastChilde(node);
+		setStroka(child, "callFunc");
 		struct AST* idNode = getLastChilde(node);
 		call_method(idNode);
 	} else if (strcmp(parser->lookahead->token, "equal") == 0) {
+		struct AST *child = getLastChilde(node);
+		setStroka(child, "id");
+
 		struct AST* AssignNode = initASTNode();
 		setStroka(AssignNode, "assign");
 		swapChild(node, AssignNode);
@@ -363,8 +369,12 @@ void add_prior_oper(struct AST* node) {
 
 void id_or_sign_number(struct AST* node) {
 	if (strcmp(parser->lookahead->token, "id") == 0) {
+		// struct AST *child = getLastChilde(node);
+		// setToken(child, )
+		
 		struct AST *idNode = initASTNode();
 		setStroka(idNode, parser->lookahead->token);
+		setToken(idNode, parser->lookahead);
 		add_child(idNode, node);
 
 		match ("id");
@@ -586,6 +596,8 @@ void func(struct AST* StartNode) {
 	add_child(FuncNode, StartNode);
 
 	match("function");
+
+	setToken(FuncNode, parser->lookahead);
 	match("id");
 	match("l_paren");
 	struct AST *argListNode = initASTNode();

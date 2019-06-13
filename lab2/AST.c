@@ -11,6 +11,7 @@ struct AST* initASTNode() {
 	ast->idNode = countNode;
 	countNode++;
 	ast->type = 0;
+	ast->table = NULL;
 
 	return ast;
 }

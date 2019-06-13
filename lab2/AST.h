@@ -7,6 +7,7 @@
 
 #include "ListTokens.h"
 #include "ListChild.h"
+#include "hashtable.h"
 
 struct AST {
     char *Stroka;
@@ -14,6 +15,7 @@ struct AST {
     struct ListChild* ListChildren;
     int idNode;
     int type;
+    struct idTable* table;
 };
 
 struct AST* initASTNode();

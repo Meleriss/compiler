@@ -6,13 +6,16 @@ LOOP
 
 IF a < 3 
 THEN 
+    DIM z(10) AS STRING
     x = a + 1
 ELSE
     x = a - 1
 END IF
 
 REM возведение в куб
-DIM df,ds,d AS INTEGER
+DIM df,ds,ds AS STRING
+DIM t(10) AS STRING
+
 INPUT "Введите число элементов массива"; n
 kub(n,fgd,v+d,2*ksdl,t)
 PRINT n
@@ -21,5 +24,8 @@ FUNCTION kub (x)
 kub=x*x*x
 END FUNCTION
 
-END
+FUNCTION kub (x)
+kub=x*x*x
+END FUNCTION
 
+END
