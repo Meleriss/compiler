@@ -1,18 +1,19 @@
-FUNCTION kub (x)
-kub=x*x*x
- DIM z(10) AS STRING
-END FUNCTION
+REM FUNCTION kub (x)
+REM kub=x
+REM DIM z(10) AS STRING
+REM END FUNCTION
 
 REM возведение в куб
 DIM df,ds,de,x,a,n AS INTEGER
 DIM t(10) AS STRING
 
 df = 2
+df = ds
 
-x=x+2
+x=x*2
 
 DO WHILE a < 3
-    x = a + 1
+    a = a + 1
 LOOP
 
 IF a < 3 
