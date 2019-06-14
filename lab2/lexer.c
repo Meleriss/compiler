@@ -63,10 +63,12 @@ char *DefineToken(char *lexeme) {
         return "l_paren";
     if(strcmp(lexeme, ")") == 0)
         return "r_paren";
-    if(strcmp(lexeme, ",") == 0)
+    if(strcmp(lexeme, ",") == 0) {
         return "comma";
-    if(strcmp(lexeme, ";") == 0)
-        return "semi";
+	}
+    if(strcmp(lexeme, ";") == 0) {
+		return "semi";
+	}
 	if(lexeme[0] == '"') {
 		if (lexeme[strlen(lexeme)-1] == '"')
 			return "literal";

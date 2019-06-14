@@ -1,112 +1,133 @@
 digraph {
 	"node1" [label="TypeNode=start\ntype=unknown"]
-	"node1" -> "node3"
-	"node3" [label="TypeNode=assign\ntype=unknown"]
-	"node3" -> "node2"
-	"node2" [label="TypeNode=id\ntype=unknown\nlexeme=x"]
-	"node3" -> "node5"
-	"node5" [label="TypeNode=plus\ntype=unknown"]
-	"node5" -> "node4"
-	"node4" [label="TypeNode=id\ntype=unknown\nlexeme=x"]
-	"node5" -> "node6"
-	"node6" [label="TypeNode=number\ntype=unknown"]
-	"node1" -> "node7"
-	"node7" [label="TypeNode=while\ntype=unknown"]
-	"node7" -> "node8"
-	"node8" [label="TypeNode=expr\ntype=unknown"]
-	"node8" -> "node10"
-	"node10" [label="TypeNode=less\ntype=unknown"]
-	"node10" -> "node9"
-	"node9" [label="TypeNode=id\ntype=unknown\nlexeme=a"]
-	"node10" -> "node11"
-	"node11" [label="TypeNode=number\ntype=unknown"]
-	"node7" -> "node12"
-	"node12" [label="TypeNode=bodyWhile\ntype=unknown"]
-	"node12" -> "node14"
-	"node14" [label="TypeNode=assign\ntype=unknown"]
-	"node14" -> "node13"
-	"node13" [label="TypeNode=id\ntype=unknown\nlexeme=x"]
+	"node1" -> "node2"
+	"node2" [label="TypeNode=dim\ntype=unknown"]
+	"node2" -> "node3"
+	"node3" [label="TypeNode=var\ntype=int\nlexeme=df"]
+	"node2" -> "node4"
+	"node4" [label="TypeNode=var\ntype=int\nlexeme=ds"]
+	"node2" -> "node5"
+	"node5" [label="TypeNode=var\ntype=int\nlexeme=de"]
+	"node2" -> "node6"
+	"node6" [label="TypeNode=var\ntype=int\nlexeme=x"]
+	"node2" -> "node7"
+	"node7" [label="TypeNode=var\ntype=int\nlexeme=a"]
+	"node2" -> "node8"
+	"node8" [label="TypeNode=var\ntype=int\nlexeme=n"]
+	"node1" -> "node9"
+	"node9" [label="TypeNode=dim\ntype=unknown"]
+	"node9" -> "node10"
+	"node10" [label="TypeNode=arr\ntype=string\nlexeme=t"]
+	"node1" -> "node11"
+	"node11" [label="TypeNode=func\ntype=unknown\nlexeme=kub"]
+	"node11" -> "node12"
+	"node12" [label="TypeNode=argList\ntype=unknown"]
+	"node12" -> "node13"
+	"node13" [label="TypeNode=var\ntype=unknown\nlexeme=x"]
+	"node11" -> "node14"
+	"node14" [label="TypeNode=bodyFunc\ntype=unknown"]
 	"node14" -> "node16"
-	"node16" [label="TypeNode=plus\ntype=unknown"]
+	"node16" [label="TypeNode=assign\ntype=unknown"]
 	"node16" -> "node15"
-	"node15" [label="TypeNode=id\ntype=unknown\nlexeme=a"]
-	"node16" -> "node17"
-	"node17" [label="TypeNode=number\ntype=unknown"]
-	"node1" -> "node18"
-	"node18" [label="TypeNode=if\ntype=unknown"]
+	"node15" [label="TypeNode=id\ntype=unknown\nlexeme=kub"]
+	"node16" -> "node20"
+	"node20" [label="TypeNode=multiply\ntype=unknown"]
+	"node20" -> "node18"
+	"node18" [label="TypeNode=multiply\ntype=unknown"]
+	"node18" -> "node17"
+	"node17" [label="TypeNode=id\ntype=unknown\nlexeme=x"]
 	"node18" -> "node19"
-	"node19" [label="TypeNode=expr\ntype=unknown"]
-	"node19" -> "node21"
-	"node21" [label="TypeNode=less\ntype=unknown"]
-	"node21" -> "node20"
-	"node20" [label="TypeNode=id\ntype=unknown\nlexeme=a"]
-	"node21" -> "node22"
-	"node22" [label="TypeNode=number\ntype=unknown"]
-	"node18" -> "node23"
-	"node23" [label="TypeNode=then\ntype=unknown"]
-	"node23" -> "node24"
-	"node24" [label="TypeNode=dim\ntype=unknown"]
-	"node24" -> "node25"
-	"node25" [label="TypeNode=arr\ntype=string\nlexeme=z"]
-	"node23" -> "node27"
-	"node27" [label="TypeNode=assign\ntype=unknown"]
+	"node19" [label="TypeNode=id\ntype=unknown\nlexeme=x"]
+	"node20" -> "node21"
+	"node21" [label="TypeNode=id\ntype=unknown\nlexeme=x"]
+	"node14" -> "node22"
+	"node22" [label="TypeNode=dim\ntype=unknown"]
+	"node22" -> "node23"
+	"node23" [label="TypeNode=arr\ntype=string\nlexeme=z"]
+	"node1" -> "node25"
+	"node25" [label="TypeNode=assign\ntype=unknown"]
+	"node25" -> "node24"
+	"node24" [label="TypeNode=id\ntype=unknown\nlexeme=x"]
+	"node25" -> "node27"
+	"node27" [label="TypeNode=plus\ntype=unknown"]
 	"node27" -> "node26"
 	"node26" [label="TypeNode=id\ntype=unknown\nlexeme=x"]
-	"node27" -> "node29"
-	"node29" [label="TypeNode=plus\ntype=unknown"]
-	"node29" -> "node28"
-	"node28" [label="TypeNode=id\ntype=unknown\nlexeme=a"]
+	"node27" -> "node28"
+	"node28" [label="TypeNode=number\ntype=unknown"]
+	"node1" -> "node29"
+	"node29" [label="TypeNode=while\ntype=unknown"]
 	"node29" -> "node30"
-	"node30" [label="TypeNode=number\ntype=unknown"]
-	"node18" -> "node31"
-	"node31" [label="TypeNode=then\ntype=unknown"]
-	"node31" -> "node33"
-	"node33" [label="TypeNode=assign\ntype=unknown"]
-	"node33" -> "node32"
-	"node32" [label="TypeNode=id\ntype=unknown\nlexeme=x"]
-	"node33" -> "node35"
-	"node35" [label="TypeNode=minus\ntype=unknown"]
-	"node35" -> "node34"
-	"node34" [label="TypeNode=id\ntype=unknown\nlexeme=a"]
-	"node35" -> "node36"
-	"node36" [label="TypeNode=number\ntype=unknown"]
-	"node1" -> "node37"
-	"node37" [label="TypeNode=dim\ntype=unknown"]
-	"node37" -> "node38"
-	"node38" [label="TypeNode=var\ntype=string\nlexeme=df"]
-	"node37" -> "node39"
-	"node39" [label="TypeNode=var\ntype=string\nlexeme=ds"]
-	"node37" -> "node40"
-	"node40" [label="TypeNode=var\ntype=string\nlexeme=ds"]
-	"node1" -> "node41"
-	"node41" [label="TypeNode=dim\ntype=unknown"]
-	"node41" -> "node42"
-	"node42" [label="TypeNode=arr\ntype=string\nlexeme=t"]
-	"node1" -> "node43"
-	"node43" [label="TypeNode=input\ntype=unknown"]
+	"node30" [label="TypeNode=expr\ntype=unknown"]
+	"node30" -> "node32"
+	"node32" [label="TypeNode=less\ntype=unknown"]
+	"node32" -> "node31"
+	"node31" [label="TypeNode=id\ntype=unknown\nlexeme=a"]
+	"node32" -> "node33"
+	"node33" [label="TypeNode=number\ntype=unknown"]
+	"node29" -> "node34"
+	"node34" [label="TypeNode=bodyWhile\ntype=unknown"]
+	"node34" -> "node36"
+	"node36" [label="TypeNode=assign\ntype=unknown"]
+	"node36" -> "node35"
+	"node35" [label="TypeNode=id\ntype=unknown\nlexeme=x"]
+	"node36" -> "node38"
+	"node38" [label="TypeNode=plus\ntype=unknown"]
+	"node38" -> "node37"
+	"node37" [label="TypeNode=id\ntype=unknown\nlexeme=a"]
+	"node38" -> "node39"
+	"node39" [label="TypeNode=number\ntype=unknown"]
+	"node1" -> "node40"
+	"node40" [label="TypeNode=if\ntype=unknown"]
+	"node40" -> "node41"
+	"node41" [label="TypeNode=expr\ntype=unknown"]
+	"node41" -> "node43"
+	"node43" [label="TypeNode=less\ntype=unknown"]
+	"node43" -> "node42"
+	"node42" [label="TypeNode=id\ntype=unknown\nlexeme=a"]
 	"node43" -> "node44"
-	"node44" [label="TypeNode=literal\ntype=unknown"]
-	"node44" -> "node45"
-	"node45" [label="TypeNode=var\ntype=unknown\nlexeme=n"]
-	"node1" -> "node46"
-	"node46" [label="TypeNode=callFunc\ntype=unknown\nlexeme=kub"]
+	"node44" [label="TypeNode=number\ntype=unknown"]
+	"node40" -> "node45"
+	"node45" [label="TypeNode=then\ntype=unknown"]
+	"node45" -> "node46"
+	"node46" [label="TypeNode=dim\ntype=unknown"]
 	"node46" -> "node47"
-	"node47" [label="TypeNode=passArg\ntype=unknown"]
-	"node47" -> "node48"
-	"node48" [label="TypeNode=id\ntype=unknown\nlexeme=n"]
-	"node47" -> "node49"
-	"node49" [label="TypeNode=id\ntype=unknown\nlexeme=fgd"]
-	"node47" -> "node51"
+	"node47" [label="TypeNode=arr\ntype=string\nlexeme=z"]
+	"node45" -> "node49"
+	"node49" [label="TypeNode=assign\ntype=unknown"]
+	"node49" -> "node48"
+	"node48" [label="TypeNode=id\ntype=unknown\nlexeme=x"]
+	"node49" -> "node51"
 	"node51" [label="TypeNode=plus\ntype=unknown"]
 	"node51" -> "node50"
-	"node50" [label="TypeNode=id\ntype=unknown\nlexeme=v"]
+	"node50" [label="TypeNode=id\ntype=unknown\nlexeme=a"]
 	"node51" -> "node52"
-	"node52" [label="TypeNode=id\ntype=unknown\nlexeme=d"]
-	"node47" -> "node54"
-	"node54" [label="TypeNode=multiply\ntype=unknown"]
-	"node54" -> "node53"
-	"node53" [label="TypeNode=number\ntype=unknown"]
-	"node54" -> "node55"
-	"node55" [label="TypeNode=id\ntype=unknown\nlexeme=ksdl"]
-	"node47" -> "node56"
-	"node56" [label="TypeNode=id\ntype=un
+	"node52" [label="TypeNode=number\ntype=unknown"]
+	"node40" -> "node53"
+	"node53" [label="TypeNode=then\ntype=unknown"]
+	"node53" -> "node55"
+	"node55" [label="TypeNode=assign\ntype=unknown"]
+	"node55" -> "node54"
+	"node54" [label="TypeNode=id\ntype=unknown\nlexeme=x"]
+	"node55" -> "node57"
+	"node57" [label="TypeNode=minus\ntype=unknown"]
+	"node57" -> "node56"
+	"node56" [label="TypeNode=id\ntype=unknown\nlexeme=a"]
+	"node57" -> "node58"
+	"node58" [label="TypeNode=number\ntype=unknown"]
+	"node1" -> "node59"
+	"node59" [label="TypeNode=input\ntype=unknown"]
+	"node59" -> "node60"
+	"node60" [label="TypeNode=literal\ntype=unknown"]
+	"node60" -> "node61"
+	"node61" [label="TypeNode=var\ntype=unknown\nlexeme=n"]
+	"node1" -> "node62"
+	"node62" [label="TypeNode=callFunc\ntype=unknown\nlexeme=kub"]
+	"node62" -> "node63"
+	"node63" [label="TypeNode=passArg\ntype=unknown"]
+	"node63" -> "node64"
+	"node64" [label="TypeNode=id\ntype=unknown\nlexeme=n"]
+	"node1" -> "node65"
+	"node65" [label="TypeNode=print\ntype=unknown"]
+	"node65" -> "node66"
+	"node66" [label="TypeNode=var\ntype=unknown\nlexeme=n"]
+}

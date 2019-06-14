@@ -1,5 +1,5 @@
 all:
-	gcc -Wall -g main.c lexer.c ListTokens.c parser.c AST.c ListChild.c hashtable.c semantics.c -o main
+	gcc -Wall -g main.c lexer.c ListTokens.c parser.c AST.c ListChild.c hashtable.c semantics.c CodeGen.c -o main
 
 .PHONY: run
 run:

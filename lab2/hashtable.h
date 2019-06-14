@@ -24,16 +24,18 @@ struct idTable {
     struct listnode *hashtab[HASHTAB_SIZE];
     struct idTable *next;
     int level;
+    int sizeTable;
 };
-
 
 int hashtab_hash(char *key);
 void hashtab_init(struct listnode **hashtab);
-struct idTable *idTable_init(int level);
 void hashtab_add(struct listnode **hashtab, char *key, int value, int baseType, int type);
 struct listnode *hashtab_lookup(struct listnode **hashtab, char *key);
 void hashtab_delete(struct listnode **hashtab, char *key);
+void hashtab_setOffset(struct listnode **hashtab, char *key, int offset);
 
+struct idTable *idTable_init(int level);
 struct listnode *findInAllTable(struct idTable *table, char *key);
+void addSizeTable(struct idTable *table);
 
 #endif

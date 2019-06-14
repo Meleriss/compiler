@@ -21,11 +21,16 @@ void hashtab_init(struct listnode **hashtab) {
 struct idTable *idTable_init(int level) {
     struct idTable *table = (struct idTable*)calloc(1, sizeof(struct idTable));
     table->level = level;
+    table->next = NULL;
+    table->sizeTable = 0;
     hashtab_init(table->hashtab);
     return table;
 }
 
-
+void addSizeTable(struct idTable *table)
+{
+    table->sizeTable += 8;
+}
 
 void hashtab_add(struct listnode **hashtab, char *key, int value, int baseType, int type) {
     struct listnode *node;
@@ -51,7 +56,7 @@ struct listnode *findInAllTable(struct idTable *table, char *key)
 
     struct listnode *node = hashtab_lookup(currHashTab, key);
 
-    if (node == NULL) {
+    if (node == NULL && table->next != NULL) {
         node = findInAllTable(table->next, key);
     }
 
@@ -88,4 +93,10 @@ void hashtab_delete(struct listnode **hashtab, char *key) {
         }
         prev = p;
     }
+}
+
+void hashtab_setOffset(struct listnode **hashtab, char *key, int offset)
+{
+    struct listnode *node = hashtab_lookup(hashtab, key);
+    node->offset = offset;    
 }
