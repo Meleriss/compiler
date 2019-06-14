@@ -442,6 +442,7 @@ void sign_number(struct AST* node) {
 
 		struct AST *numNode = initASTNode();
 		setStroka(numNode, "number");
+		setToken(numNode, parser->lookahead);
 		add_child(numNode, node);
 
 		match("numeric");

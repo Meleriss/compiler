@@ -119,6 +119,7 @@ void print_table(struct AST *node) {
 				printf("offset=%d\n", hashnode->offset);
 			}
 		}
+		printf("Size tab: %d\n", node->table->sizeTable);
 	}
 	struct ListChild* Children = node->ListChildren;
 	while (Children != NULL) {

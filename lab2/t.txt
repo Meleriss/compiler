@@ -1,12 +1,13 @@
-REM возведение в куб
-DIM df,ds,de,x,a,n AS INTEGER
-DIM t(10) AS STRING
-
-
 FUNCTION kub (x)
 kub=x*x*x
  DIM z(10) AS STRING
 END FUNCTION
+
+REM возведение в куб
+DIM df,ds,de,x,a,n AS INTEGER
+DIM t(10) AS STRING
+
+df = 2
 
 x=x+2
 
