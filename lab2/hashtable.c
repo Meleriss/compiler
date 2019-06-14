@@ -98,5 +98,5 @@ void hashtab_delete(struct listnode **hashtab, char *key) {
 void hashtab_setOffset(struct listnode **hashtab, char *key, int offset)
 {
     struct listnode *node = hashtab_lookup(hashtab, key);
-    node->offset = offset;    
+    node->offset = offset;
 }

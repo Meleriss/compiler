@@ -22,3 +22,16 @@ struct ListChild *addChild(struct ListChild *List, struct AST *Node) {
     }
     return NULL;
 }
+
+struct ListChild *getChild(struct ListChild *list, int ind)
+{
+    struct ListChild *child = list;
+    for (int i = 0; i != ind; i++) {
+        if (child != NULL)
+            child = child->next;
+        else
+            return NULL;
+    }
+
+    return child;
+}
