@@ -92,7 +92,7 @@ void treversal(struct AST *node)
 	} else if (strcmp(node->Stroka, "input") == 0) {
 
 	} else if (strcmp(node->Stroka, "print") == 0) {
-		
+		createPrint(node->ListChildren->Node);
 	}
 
 	struct ListChild* Children = node->ListChildren;
@@ -107,6 +107,9 @@ void createIf(struct AST *node)
 {
 	struct AST *exprNode = node->ListChildren->Node;
 	struct AST *thenNode = node->ListChildren->next->Node;
+	struct AST *lastChild = NULL;
+	if (node->ListChildren->next->next != NULL)
+		lastChild = node->ListChildren->next->next->Node;
 
 	int currJmp = countJmp;
 	countJmp += 2;
@@ -121,7 +124,18 @@ void createIf(struct AST *node)
 
 	treversal(thenNode);
 
+	if (node->ListChildren->next->next != NULL)
+		Jmp("jmp", currJmp + 200);
+
 	Loop(currJmp + 100);
+
+	if (lastChild != NULL && strcmp(lastChild->Stroka, "then") == 0) {
+		// stmtListNode(lastChild->getLastChild());
+		treversal(lastChild);
+	}
+
+	if (node->ListChildren->next->next != NULL)
+		Loop(currJmp + 200);
 }
 
 void createWhile(struct AST *node)
@@ -144,6 +158,70 @@ void createWhile(struct AST *node)
 
 	Jmp("jmp", currJmp);
 	Loop(currJmp + 100);
+}
+
+void createPrint(struct AST *node)
+{
+	fprintf(asmb, "\n");
+	Push("rdi");
+	Push("rax");
+	Push("rsi");
+	fprintf(asmb, "\n");
+
+	if (node->Token != NULL) {
+		char *lexeme = node->Token->lexeme;
+		// if (node->getToken()->getTokenName() == literal) {
+		// 	msg.push_back("\tmsg"+to_string(countLiteral)+" db "+lexeme+", 0");
+
+		// 	operMov("rdi", "formString");
+		// 	operMov("rax", "msg" + to_string(countLiteral));
+
+		// 	countLiteral++;
+		// 	flagOutput = 1;
+		// 	flagFormString = 1;
+		// } else
+		if (strcmp(node->Token->token, "id") == 0) {
+			struct listnode *hashtab = findInAllTable(currTable, lexeme);
+			if (hashtab->type == 1) {
+				Mov("rdi", "formInt");
+				
+				int offset = hashtab->offset;
+				int sizeNum = getSizeNumber(offset);
+				char *str2 = (char*) calloc(6 + sizeNum, sizeof(char));
+				sprintf(str2, "[rbp-%d]", offset);
+
+				// Mov("rax", "[rbp-" + getOffset(node) + "]");
+				Mov("rax", str2);
+				free(str2);
+
+				// flagFormInt = 1;
+			}
+			// else if (node->getReturnType() == "char") {
+			// 	// IdAttributes *idAttrib = currIdTable->searchAttrib(lexeme);
+
+			// 	operMov("rdi", "formChar");
+			// 	operMov("rax", "[rbp-" + getOffset(node) + "]");
+
+			// 	flagFormChar = 1;
+			// }
+			// flagOutput = 1;
+		}
+	}
+
+	Mov("rsi", "rax");
+	Xor("rax", "rax");
+	fprintf(asmb, "\tcall\tprintf");
+
+	fprintf(asmb, "\n");
+	Pop("rsi");
+	Pop("rax");
+	Pop("rdi");
+	fprintf(asmb, "\n");
+}
+
+void createInput(struct AST *node)
+{
+
 }
 
 char* rightPart(struct AST *node)

@@ -4,28 +4,32 @@ REM DIM z(10) AS STRING
 REM END FUNCTION
 
 REM возведение в куб
-DIM df,ds,de,x,a,n AS INTEGER
+DIM a,df,ds,de,x,n AS INTEGER
 DIM t(10) AS STRING
 
-df = 2
+ds = 5
 df = ds
 
-x=x*2
+n=2
 
 DO WHILE a < 3
     a = a + 1
+    PRINT a
 LOOP
 
+a = 2
 IF a < 3 
 THEN 
-    DIM z(10) AS STRING
-    x = a + 1
+    x = 1
+    PRINT x
 ELSE
-    x = a - 1
+    x = 2
+    PRINT x
 END IF
 
 INPUT "Введите число элементов массива"; n
-kub(n)
+REM kub(n)
+n = 2 * df
 PRINT n
 
 END
